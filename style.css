@@ -1,0 +1,92 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+.container{
+    margin: 0 auto;
+    max-width: 1200px;
+
+
+}
+.header{
+    margin-top: 15px;
+}
+.l-header{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.r-header{
+    display: flex;
+    gap: 20px;
+    img{
+        width: 32px;
+        height: 32px;
+    }
+}
+span{
+    font-family: "roboto", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    color: #750000;
+}
+h3{
+    font-family: "roboto", sans-serif;
+    font-weight: 400;
+    font-size: 36px;
+    color: #750000;
+}
+p{
+    font-family: "roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #533333;
+}
+.line{
+    width: 1200px;
+    height: 2px;
+    background-color: #750000;
+}
+.header__logo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.modal{
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    inset: 0;
+    justify-content: flex-end;
+    align-items: stretch;
+    transform: translateX(100%);
+    transition: 0.3s ease;
+    z-index: 100;
+    display: none;
+}
+.modal.open{
+    display: flex;
+    transform: translateX(0);
+}
+.modal-content{
+    background-color: white;
+}
+
+.heart-icon{
+    cursor: pointer;
+    transition: 0.2s;
+}
+.heart-icon.active {
+    fill: red;
+}
+
+
+
+
+
+
+
+
