@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Избранное</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header container">
+    <div class="header__logo">
+        <div class="l-header">
+            <img src="./images/flowers.svg" alt="">
+            <div>
+                <h3>Red Clothes</h3>
+                <p>Магазин одежды для практики  </p>
+            </div>
+        </div>
+
+        <div class="r-header">
+            <img src="./images/market.svg" alt="" id="cart-icon">
+            <span>30 595 ₽</span>
+
+
+            <img src="./images/love.svg" alt="" class="heart-icon">
+            <img src="./images/chel.svg" alt="">
+        </div>
+    </div>
+   <div class="line"></div>
+
+     
+
+        
+      
+   
+
+    </div>
+
+    <div class="footer-bottom">
+        2023 React Clothes - Free Figma Design template by VeselovaIS
+    </div>
+</footer>
+<h1>Избранное</h1>
+<div class="cards-fovorit" id="favorites"></div>
+
+<script>
+const favoritesBlock = document.getElementById("favorites");
+const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+favorites.forEach(product => {
+    const div = document.createElement("div");
+    div.classList.add("card-fovorit");
+    div.innerHTML = `
+        <img src="${product.img}" alt="${product.name}">
+        <h4>${product.name}</h4>
+        <p>${product.price}</p>
+        <button class="remove">Удалить</button>
+    `;
+    // Удаление товара
+    div.querySelector(".remove").addEventListener("click", () => {
+        const updatedFavorites = favorites.filter(item => item.name !== product.name);
+        localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+        div.remove();
+    });
+
+    favoritesBlock.appendChild(div);
+});
+</script>
+
+ <footer>
+    <div class="footer-container">
+        
+        <div class="footer-column">
+            <h3>Покупателям</h3>
+            <a href="#">Как сделать заказ</a>
+            <a href="#">Способы оплаты</a>
+            <a href="#">Доставка</a>
+            <a href="#">Возврат товара</a>
+            <a href="#">Правила продажи</a>
+            <a href="#">Вопросы и ответы</a>
+        </div>
+
+        <div class="footer-column">
+            <h3>Компания</h3>
+            <a href="#">О нас</a>
+            <a href="#">Реквизиты</a>
+            <a href="#">Контакты</a>
+        </div>
+
+        <div class="footer-column">
+            <h3>Мы в соцсетях</h3>
+            <div class="social-icons">
+                <a href="#">F</a>
+                <a href="#">I</a>
+                <a href="#">T</a>
+                <a href="#">VK</a>
+            </div>
+        </div>
+</body>
+</html>

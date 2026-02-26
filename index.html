@@ -2,62 +2,148 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Red Clothes</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
 <body>
 <header class="header container">
     <div class="header__logo">
-    <div class="l-header">
-        <img src="./images/flowers.svg" alt="">
-        <div>
-        <h3>Red Clothes</h3>
-        <p>Магазин одежды для практики  </p>
+        <div class="l-header">
+            <img src="./images/flowers.svg" alt="">
+            <div>
+                <h3>Red Clothes</h3>
+                <p>Магазин одежды для практики</p>
+            </div>
         </div>
-    </div>
-
-    <div class="r-header">
-        <img src="./images/market.svg" alt="" id="cart-icon">
-        <span>30 595 ₽</span>
-
-
-        <img src="./images/love.svg" alt="" class="heart-icon">
-        <img src="./images/chel.svg" alt="">
-    </div>
+        <div class="r-header">
+            <img src="./images/market.svg" alt="" id="cart-icon">
+            <span>30 595 ₽</span>
+        </div>
     </div>
     <div class="line"></div>
 
-
     <div class="modal">
         <div class="modal-content">
-            <h1>модальное окно</h1>
+            <h1>Корзина</h1>
+            <div class="cart-items"></div>
+            <div class="empty-cart">Корзина пуста</div>
         </div>
-        <div class="modal-header" ></div>
-        <div class="modal-footer"></div>
-
     </div>
-    </header>
+</header>
 
 <section class="new-colection container">
-    <div class="l-blok">
-        <h2>Hовая</h2>
-        <p>&nbsp;</p>
-    </div>
-    <div class="c-blok">
-        <h5>колекция</h5>
-        <p>Смотреть Новинки ></p>
-        <div class="liner"></div>
-    </div>
-    <div class="r-blok">
-        <img src="./images/38e41350e4e284acd95bef0b4653daee9e65bebb.png" alt="">
-    </div>
-
+    <div class="l-blok"><h2>Новая</h2></div>
+    <div class="c-blok"><h5>колекция</h5></div>
+    <div class="r-blok"><img src="./images/38e41350e4e284acd95bef0b4653daee9e65bebb.png" alt=""></div>
 </section>
 
+<div class="container" id="products">
+    <div class="left">
+        <h2>Все товары</h2>
+        <input type="text" id="search" placeholder="Поиск...">
+    </div>
 
-<script src="app.js"></script>
+    <div class="cards">
+        <div class="card product" data-id="1">
+            <i class="bi bi-suit-heart-fill heart-icon"></i>
+            <img src="./images/image copy 3.png">
+            <h4 class="name">Красная худи</h4>
+            <div class="price">3595 ₽</div>
+            <button class="add-btn" data-img="./images/image copy 3.png" data-name="Красная худи" data-price="3595">+</button>
+        </div>
+
+        <div class="card product" data-id="2">
+            <i class="bi bi-suit-heart-fill heart-icon"></i>
+            <img src="./images/img_1.png">
+            <h4 class="name">Зелёное платье</h4>
+            <div class="price">3500 ₽</div>
+            <button class="add-btn" data-img="./images/img_1.png" data-name="Зелёное платье" data-price="3500">+</button>
+        </div>
+
+        <div class="card product" data-id="3">
+            <i class="bi bi-suit-heart-fill heart-icon"></i>
+            <img src="./images/img_1.png">
+            <h4 class="name">Водолазка</h4>
+            <div class="price">2999 ₽</div>
+            <button class="add-btn" data-img="./images/img_1.png" data-name="Водолазка" data-price="2999">+</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const cart = document.querySelector("#cart-icon");
+const modal = document.querySelector(".modal");
+const cartItems = document.querySelector(".cart-items");
+const addBtn = document.querySelectorAll(".add-btn");
+const emptyCart = document.querySelector(".empty-cart");
+let carts = [];
+
+// Корзина
+function addToCart() {
+    cartItems.innerHTML = "";
+    if (carts.length === 0) {
+        emptyCart.style.display = "block";
+    } else {
+        emptyCart.style.display = "none";
+        carts.forEach((item,index) => {
+            const div = document.createElement("div");
+            div.classList.add("modal-cart");
+            div.innerHTML = `
+                <img src="${item.img}" alt="">
+                <div class="info">
+                    <h5>${item.name}</h5>
+                    <p>${item.price}</p>
+                </div>
+                <button class="remove">X</button>
+            `;
+            div.querySelector(".remove").addEventListener("click", () => {
+                carts.splice(index,1);
+                addToCart();
+            });
+            cartItems.appendChild(div);
+        });
+    }
+}
+
+addBtn.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const name = btn.dataset.name;
+        const price = btn.dataset.price;
+        const img = btn.dataset.img;
+        carts.push({name, price, img});
+        addToCart();
+    });
+});
+
+cart.addEventListener("click", () => {
+    modal.classList.toggle("open");
+});
+
+// Избранное
+const hearts = document.querySelectorAll(".heart-icon");
+hearts.forEach(heart => {
+    heart.addEventListener("click", function() {
+        const card = heart.closest(".card");
+        const product = {
+            name: card.querySelector(".name").textContent,
+            price: card.querySelector(".price").textContent,
+            img: card.querySelector("img").src
+        };
+
+        let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+        if (!favorites.find(item => item.name === product.name)) {
+            favorites.push(product);
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+            heart.style.color = "red";
+        } else {
+            // если уже есть, можно убрать из избранного
+            favorites = favorites.filter(item => item.name !== product.name);
+            localStorage.setItem("favorites", JSON.stringify(favorites));
+            heart.style.color = "black";
+        }
+    });
+});
+</script>
 </body>
 </html>
