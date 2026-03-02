@@ -1,63 +1,24 @@
-let cart = [];
-
-const buttons = document.querySelectorAll(".add-btn");
-
-buttons.forEach(button => {
-    button.addEventListener("click", function() {
-        const card = this.closest(".card");
-
-        const id = card.dataset.id;
-        const name = card.dataset.name;
-        const price = parseInt(card.dataset.price);
-
-        cart.push({id, name, price});
-        updateCart();
-    });
-});
-
-function updateCart(){
-    const cartItems = document.getElementById("cart-items");
-    const count = document.getElementById("cart-count");
-    const total = document.getElementById("total-price");
-
-    cartItems.innerHTML="";
-    let sum=0;
-
-    cart.forEach((item,index)=>{
-        sum+=item.price;
-        cartItems.innerHTML += `
-            <div class="cart-item">
-                ${item.name} - ${item.price} ₽
-                <button onclick="removeFromCart(${index})">x</button>
-            </div>
-        `;
-    });
-
-    count.innerText = cart.length;
-    total.innerText = sum;
-}
-
-function removeFromCart(index){
-    cart.splice(index,1);
-    updateCart();
-}
-
-function toggleCart(){
-    document.getElementById("cart").classList.toggle("active");
-}
-
-document.getElementById("search").addEventListener("input", function(){
-    const value = this.value.toLowerCase();
-    const cards = document.querySelectorAll(".card");
-
-    cards.forEach(card => {
-        const name = card.dataset.name.toLowerCase();
-        card.style.display = name.includes(value) ? "flex" : "none";
-    });
-});
 const heart = document.querySelector(".heart-icon");
-const cart = document.querySelector("#cart-icon");
 const modal = document.querySelector(".modal");
+const cart = document.querySelector("#cart-icon");
+const cartItems = document.querySelector(".cart-items");
+const addBtn = document.querySelectorAll(".add-btn");
+const emptyCart = document.querySelector(".empty-cart");
+const totalPrice = document.querySelector("#total-price");
+const headerPrice = document.querySelector("#header-price");
+const zakazButton = document.querySelector(".zakaz");
+const offContainer = document.querySelector(".off-container");
+const footer = document.querySelector(".modal-footer");
+
+
+zakazButton.addEventListener("click", () => {
+    offContainer.style.display = "block";
+    cartItems.style.display = "none";
+    footer.style.display = "none";
+    emptyCart.style.display = "none";
+
+
+})
 
 
 
@@ -68,3 +29,62 @@ heart.addEventListener("click", () => {
 cart.addEventListener("click", () => {
     modal.classList.add("open");
 })
+
+let carts = [];
+
+function addToCart() {
+    cartItems.innerHTML=""
+    if (carts.length===0){
+        emptyCart.style.display="block";
+    }else {
+        emptyCart.style.display="none";
+    carts.forEach((item,index) => {const div=
+        document.createElement("div");
+        div.classList.add("div");
+    div.classList.add("modal-cart");
+    div.innerHTML=`
+<img class="krug" src="${item.img}" alt="">
+<div class="info">
+<h3>Blacksi</h3>
+<h5>${item.name}</h5>
+<!--<p>${item.catigori}</p>-->
+<h3>${item.price}<h3/>
+</div>
+<button class="remove">X</button>`
+    div.querySelector(".remove")
+    .addEventListener("click", (e) => {
+    carts.splice(index,1);
+    addToCart();
+
+    })
+        cartItems.appendChild(div);
+})
+    }
+    let total=0;
+    carts.forEach((item,index) => {
+        total+=Number(item.price)
+        totalPrice.textContent = total + '₽';
+
+        headerPrice.textContent = total + '₽';
+    })
+}
+
+addBtn.forEach(btn=>{
+    btn.addEventListener("click", () => {
+        const name=btn.dataset.name;
+        const price=btn.dataset.price;
+        const img=btn.dataset.img;
+        carts.push({name:name,price:price,img:img});
+        addToCart()
+})
+});
+
+
+
+
+
+
+
+
+
+
